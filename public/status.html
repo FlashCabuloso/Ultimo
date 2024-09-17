@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status da Loja de Discord</title>
+    <style>
+        .status {
+            font-size: 24px;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .online {
+            color: green;
+            border: 2px solid green;
+        }
+        .offline {
+            color: red;
+            border: 2px solid red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Status da Loja de Discord</h1>
+    
+    <div id="status" class="status">Carregando status...</div>
+
+    <button onclick="setStatus('online')">Definir como Online</button>
+    <button onclick="setStatus('offline')">Definir como Offline</button>
+
+    <script>
+        // Função para atualizar o status na página
+        function updateStatus(status) {
+            const statusDiv = document.getElementById('status');
+            if (status === 'online') {
+                statusDiv.textContent = 'A loja está Online';
+                statusDiv.classList.remove('offline');
+                statusDiv.classList.add('online');
+            } else {
+                statusDiv.textContent = 'A loja está Offline';
+                statusDiv.classList.remove('online');
+                statusDiv.classList.add('offline');
+            }
+        }
+
+        // Função para definir o status
+        function setStatus(status) {
+            fetch('/update_status', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status })
+            }).then(() => updateStatus(status));
+        }
+
+        // Atualiza o status ao carregar a página
+    </script>
+</body>
+</html>
